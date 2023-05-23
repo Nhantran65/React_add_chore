@@ -14,22 +14,20 @@ import { useEffect, useState } from 'react'
 
 
 function Content(){
-    const [width, setWidth]=useState(window.innerWidth);
+    const [countDown, setCountDown] = useState(180);
 
-    useEffect(()=>{
-        const handleResize = ()=>{
-            setWidth(window.innerWidth);
-        }
+    useEffect(() => {
+       const timerID = setInterval(() => {
+            setCountDown(prev => prev -1);
+        }, 1000);
 
-        window.addEventListener("resize", handleResize);
-
-        return()=>{
-            window.removeEventListener("resize", handleResize);
-        }
+        return (() => clearInterval(timerID))
     }, [])
     return(
         <div>
-            <h1>{width}</h1>
+            <h1>
+                {countDown} 
+            </h1>
         </div>
     )
 }
