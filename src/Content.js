@@ -11,78 +11,25 @@ import { useEffect, useState } from 'react'
 // 1.callback luôn được gọi sau khi component mounted
 // 2.cleanup function luôn được gọi trước khi component unmounted
 
-const tabs = ['posts', 'comments', 'albums', 'photos', 'todos', 'users']
 
 
 function Content(){
-    const [item, setItem] = useState('');
-    const[posts, setPosts] = useState([]);
-    const[type, setType] = useState('posts');
-    const[showGoToTop, setShowGoToTop] = useState(false);
-
-    useEffect(() => {
-        fetch(`https://jsonplaceholder.typicode.com/${type}`)
-            .then(response => response.json())
-            .then(posts => {
-                setPosts(posts);
-            });
-    }, [type]);
+    const [width, setWidth]=useState(window.innerWidth);
 
     useEffect(()=>{
-        const handleScroll = () =>{
-            setShowGoToTop(window.scrollY>=200)
-            // kiểu so sánh luôn trả về kiểu dữ liệu Boolean value.(not need to use if else synstax)
+        const handleResize = ()=>{
+            setWidth(window.innerWidth);
         }
-        window.addEventListener('scroll', handleScroll);
 
-        // cleanup function 
-        return () =>{
-            window.removeEventListener('scroll', handleScroll);
+        window.addEventListener("resize", handleResize);
+
+        return()=>{
+            window.removeEventListener("resize", handleResize);
         }
-    },[])
-
-
+    }, [])
     return(
         <div>
-            
-            {
-                tabs.map(tab => (
-                    <button
-                        key={tab}
-                        style={type === tab ? {
-                            color: '#fff',
-                            backgroundColor: '#333'
-
-                        } : {}                       
-                    }
-                    onClick={() => setType(tab)}   
-                    >
-                        {tab}
-                    </button>
-                ))
-            }
-            <input
-                value = {item}
-                onChange = {e => setItem(e.target.value)}
-            />
-            <ul>
-                {
-                    posts.map(item => (
-                        <li key={item.id}>{item.title || item.name}</li>
-                    ))
-                }
-
-            </ul>   
-            {showGoToTop && (
-                <button
-                style={{position: 'fixed',
-                right:  20,
-                bottom: 20
-            }}
-                >
-                    Up 
-                </button>
-            )}   
+            <h1>{width}</h1>
         </div>
     )
 }
