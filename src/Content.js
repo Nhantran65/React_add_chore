@@ -8,7 +8,8 @@ import { useEffect, useState } from 'react'
 // 3.useEffect(callback,[deps])
 //  - Callbacks sẽ được gọi lại mỗi khi Dependencies thay đổi
 //===============================
-// 1.callback luôn được gọi sau khi component mount
+// 1.callback luôn được gọi sau khi component mounted
+// 2.cleanup function luôn được gọi trước khi component unmounted
 
 const tabs = ['posts', 'comments', 'albums', 'photos', 'todos', 'users']
 
@@ -17,6 +18,7 @@ function Content(){
     const [item, setItem] = useState('');
     const[posts, setPosts] = useState([]);
     const[type, setType] = useState('posts');
+    const[showGoToTop, setShowGoToTop] = useState(false);
 
     useEffect(() => {
         fetch(`https://jsonplaceholder.typicode.com/${type}`)
@@ -25,6 +27,19 @@ function Content(){
                 setPosts(posts);
             });
     }, [type]);
+
+    useEffect(()=>{
+        const handleScroll = () =>{
+            setShowGoToTop(window.scrollY>=200)
+            // kiểu so sánh luôn trả về kiểu dữ liệu Boolean value.(not need to use if else synstax)
+        }
+        window.addEventListener('scroll', handleScroll);
+
+        // cleanup function 
+        return () =>{
+            window.removeEventListener('scroll', handleScroll);
+        }
+    },[])
 
 
     return(
@@ -57,7 +72,17 @@ function Content(){
                     ))
                 }
 
-            </ul>      
+            </ul>   
+            {showGoToTop && (
+                <button
+                style={{position: 'fixed',
+                right:  20,
+                bottom: 20
+            }}
+                >
+                    Up 
+                </button>
+            )}   
         </div>
     )
 }
