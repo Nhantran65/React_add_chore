@@ -13,36 +13,60 @@ import { useEffect, useState } from 'react'
 // 3.cleanup function luôn được gọi trước khi callback được gọi
 
 
-
 function Content() {
-    const [avatar, setAvatar]= useState()
-    
-    useEffect(()=>{
-        return ()=>{
-            avatar && URL.revokeObjectURL(avatar.preview);
-        }
-    },[avatar])
+    const [lessonId, setLessonId] = useState(1);
 
-    const handlePreviewAvatar = (e) => {
-        const file = e.target.files[0];
-        file.preview= URL.createObjectURL(file);
-       setAvatar(file)
-    }
-    return(
-        <div>
-           <input
-                type='file'
-                onChange={handlePreviewAvatar}
-           />
-           {
-            avatar && (
-                <img src={avatar.preview} alt="" width="80%"/>
+    useEffect(()=>{
+        const handleComment = ({detail})=>{
+            console.log(detail);
+        }
+
+        window.addEventListener(`lesson-${lessonId}`, handleComment)
+
+        return ()=>{
+            window.removeEventListener(`lesson-${lessonId}`,handleComment)
+        }
+    }, [lessonId])
+   
+
+  const lessons = [
+    {
+      id: 1,
+      name: 'ReactJS là gì? Tại sao nên học ReactJS',
+    },
+    {
+      id: 2,
+      name: 'SPA/MPA là gì ?',
+    },
+    {
+      id: 3,
+      name: 'Arrow function',
+    },
+  ];
+
+  return (
+    <div>
+      <ul>
+        {lessons.map(lesson => 
+                (
+                    <li
+                    key={lesson.id}
+                    style={{
+                        color: lessonId === lesson.id ? 'red' : '#333',
+                        cursor: 'pointer'
+                    }}  
+                    onClick={() => setLessonId(lesson.id)}
+                >                    
+                {lesson.name}
+                </li>
+                )
             )
-           }
-          
-        </div>
-    )
+        }
+
+        
+      </ul>
+    </div>
+  );
 }
 
-export default Content
-
+export default Content;
