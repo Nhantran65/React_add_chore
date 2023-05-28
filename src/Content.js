@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useLayoutEffect } from 'react'
 
 // 1.useEffect(callback)
 //  - Gọi callback mỗi khi component re-render
@@ -12,61 +12,41 @@ import { useEffect, useState } from 'react'
 // 2.cleanup function luôn được gọi trước khi component unmounted
 // 3.cleanup function luôn được gọi trước khi callback được gọi
 
+// useEffect 
+// 1. Cập nhật lại state 
+// 2. Cập nhật lại DOM
+// 3. Render lại UI
+// 4. Gọi Clean up để deps thay đổi
+// 5. Gọi UseEffect  callback
+
+// useLayoutEffect (sử dụng khi setState rồi dùng useEffect set lại chính nó để trở thành một component mới rồi mới render lại UI)
+// 1. Cập nhật lại state 
+// 2. Cập nhật lại DOM
+// 3. Gọi Clean up để deps thay đổi
+// 4. Gọi useLayoutEffect callback(sync)
+// 5. Render lại UI
+
 
 function Content() {
-    const [lessonId, setLessonId] = useState(1);
-
-    useEffect(()=>{
-        const handleComment = ({detail})=>{
-            console.log(detail);
+    const [count, setCount]= useState(0)
+    useLayoutEffect(
+      ()=>{
+        if(count>3){
+          setCount(0);
         }
-
-        window.addEventListener(`lesson-${lessonId}`, handleComment)
-
-        return ()=>{
-            window.removeEventListener(`lesson-${lessonId}`,handleComment)
-        }
-    }, [lessonId])
-   
-
-  const lessons = [
-    {
-      id: 1,
-      name: 'ReactJS là gì? Tại sao nên học ReactJS',
-    },
-    {
-      id: 2,
-      name: 'SPA/MPA là gì ?',
-    },
-    {
-      id: 3,
-      name: 'Arrow function',
-    },
-  ];
-
-  return (
-    <div>
-      <ul>
-        {lessons.map(lesson => 
-                (
-                    <li
-                    key={lesson.id}
-                    style={{
-                        color: lessonId === lesson.id ? 'red' : '#333',
-                        cursor: 'pointer'
-                    }}  
-                    onClick={() => setLessonId(lesson.id)}
-                >                    
-                {lesson.name}
-                </li>
-                )
-            )
-        }
-
-        
-      </ul>
-    </div>
-  );
+      }
+    ) 
+    const handleRun = ()=>{
+      setCount(count+1);
+    }
+    return(
+      <div>
+        <h1>{count}</h1>
+        <button onClick={handleRun}>
+          Run 
+        </button>
+      </div>)
 }
-
+  
+  
 export default Content;
