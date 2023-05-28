@@ -5,9 +5,21 @@ import { useEffect, useState, useLayoutEffect , useRef} from 'react'
 
 
 function Content() {
-    const [count, setCount]= useState(0)
+    const [count, setCount]= useState(60)
 
-    let timeId = useRef();
+    let  timeId = useRef();
+    const prevCount = useRef();
+    const h1Ref= useRef();
+
+    useEffect(() =>
+    {
+      prevCount.current=count;
+    }, [count])
+
+    useEffect(()=>{
+      const rect = h1Ref.current.getBoundingClientRect();
+      console.log(rect)
+    })
     const handleStart = ()=> {
        timeId.current =setInterval(()=>{
         setCount(prevCount=> prevCount-1);
@@ -19,9 +31,10 @@ function Content() {
       clearInterval(timeId.current)
       console.log('stop->', timeId.current)
     }
+    console.log(count, prevCount)
     return(
       <div>
-        <h1>{count}</h1>
+        <h1 ref={h1Ref}>{count}</h1>
         <button onClick={handleStart}>
           Start
         </button>
