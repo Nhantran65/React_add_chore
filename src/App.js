@@ -1,34 +1,62 @@
-import { useEffect, useState, useLayoutEffect , useRef} from 'react'
 
-// 1. memo()-> Higher Order Component
-// 2. useCallback()
-  // -reference types
-  // -React memo()
+import { useState, useRef, useMemo } from "react";
 
-import Content from "./Content";
 function App() {
-  const [count, setCount]= useState(0)
-  const [count2, setCount2]= useState(0)
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [products, setProducts] = useState([]);
 
-  
-  const increase = ()=>{
-    setCount(count + 1)
-  }
-  const increase2 = ()=>{
-    setCount2(count2 + 1)
-  }
-  return(
-    <div style={{padding: '10px 32px'}}>
-      <Content count={count}/>
-     <h1>
-      {count}
-     </h1>
-     <h1>
-      {count2}
-     </h1>
-     <button onClick={increase}>Click me!</button>
-     <button onClick={increase2}>Click me 2!</button>
-     
-    </div>)
+  const nameInput = useRef();
+
+  const handleSubmit = () => {
+    setProducts((prev) => {
+      return [...prev, { name, price: +price }];
+    });
+    setName("");
+    setPrice("");
+    nameInput.current.focus();
+  };
+
+  const total = useMemo(() =>{
+    const result = products.reduce(
+     (result, product) => {
+      console.log('tính toán lại......')
+
+     return result + product.price},
+      0
+    );
+    return result;
+  }, [products]);
+  // nếu để Dependencies rỗng thì nó chỉ trả kết quả một lần là kết quả đã tính toán trước đó và không update lại cái mới
+  // Dependencies được chuyền vào thay đổi thì tính toán lại không thì không re-render lại
+
+  return (
+    <div style={{ padding: 32 }}>
+      <input
+        ref={nameInput}
+        placeholder="Enter name..."
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <br />
+      <input
+        placeholder="Enter price..."
+        value={price}
+        onChange={(e) => setPrice(e.target.value)}
+      />
+      <br />
+      <button onClick={handleSubmit}>Add</button>
+      <br />
+      Total: {total}
+      <ul>
+        {products.map((product, index) => (
+          <li key={index}>
+            {product.name} - {product.price}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
+
 export default App;

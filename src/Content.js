@@ -6,14 +6,15 @@ import { useEffect, useState, useLayoutEffect , useRef, memo} from 'react'
 // Higher Order Component
 // Props 
 
-function Content({count}) {
+function Content({onIncrease} ) {
 
     
     return(
       <div style={{padding: '10px 32px'}}>
        <h1>
-        Hello anh em F8 {count}
+        Hello anh em F8   
        </h1>
+       <button onClick={onIncrease}>Click me!</button>
       </div>)
 }
   
