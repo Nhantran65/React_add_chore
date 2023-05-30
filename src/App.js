@@ -16,7 +16,7 @@ function App() {
     setPrice("");
     nameInput.current.focus();
   };
-
+  // bấm add thì nó mới tính toán lại (thay đổi Products thì nó mới tính toán lại)
   const total = useMemo(() =>{
     const result = products.reduce(
      (result, product) => {
@@ -31,7 +31,7 @@ function App() {
   // Dependencies được chuyền vào thay đổi thì tính toán lại không thì không re-render lại
 
   return (
-    <div style={{ padding: 32 }}>
+    <div style={{ padding: 40 }}>
       <input
         ref={nameInput}
         placeholder="Enter name..."
