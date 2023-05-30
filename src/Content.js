@@ -1,4 +1,6 @@
 import { useEffect, useState, useLayoutEffect , useRef, memo} from 'react'
+
+import Paragraph from './Paragraph';
 // 1. memo() -> Higher  Order Component (HOC)
 // 2. useCallback() 
 
@@ -6,15 +8,12 @@ import { useEffect, useState, useLayoutEffect , useRef, memo} from 'react'
 // Higher Order Component
 // Props 
 
-function Content({onIncrease} ) {
+function Content( ) {
 
     
     return(
       <div style={{padding: '10px 32px'}}>
-       <h1>
-        Hello anh em F8   
-       </h1>
-       <button onClick={onIncrease}>Click me!</button>
+      <Paragraph  />
       </div>)
 }
   
