@@ -2,10 +2,12 @@
 //Context
 // CompA=> CompB=> CompC
 // Theme: Dark/Light
-import Content from './Content'
-import './App.css'
-import { useContext } from 'react';
-import { ThemeContext } from './ThemeContext';
+//import Content from './Content'
+//import './App.css'
+import { useStore, actions } from "./store";
+import { setTodoInput } from "./store/actions";
+import { useRef } from "react";
+
 
 // 1. Create Context
 // 2. Provider 
@@ -16,14 +18,37 @@ import { ThemeContext } from './ThemeContext';
 
 function App() {
 
-  const context = useContext(ThemeContext);
+  const [state, dispatch] = useStore();
+ 
+  const { todos, todoInput}= state
+
+  const ref= useRef();
+  
+  const handleAdd = () =>{
+    dispatch(actions.addTodo(todoInput));
+    dispatch(actions.setTodoInput(''));
+    ref.current.focus();
+  }
+
   return (
   
     <div style={{padding: 20}}>
-      <button onClick={context.toggleTheme} >
-        Toggle Theme
-      </button>   
-      <Content  />;
+        <input 
+        ref={ref}
+        placeholder="Enter todoInput........"
+        value={todoInput}
+        onChange={e=> {
+          dispatch(actions.setTodoInput(e.target.value));
+        }}
+        
+        />
+        <button onClick={handleAdd}>Add</button>
+        
+          {todos.map((todo, index)=>
+            (<li key={index}>{todo}</li>)
+          )}
+        
+        
     </div>
     
     
