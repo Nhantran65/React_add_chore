@@ -4,10 +4,9 @@
 // Theme: Dark/Light
 //import Content from './Content'
 //import './App.css'
-import { useStore, actions } from "./store";
-import { setTodoInput } from "./store/actions";
-import { useRef } from "react";
 
+import { useEffect, useImperativeHandle, useRef } from "react";
+import Video from "./Video";
 
 // 1. Create Context
 // 2. Provider 
@@ -18,37 +17,21 @@ import { useRef } from "react";
 
 function App() {
 
-  const [state, dispatch] = useStore();
- 
-  const { todos, todoInput}= state
+  const videoRef = useRef()
 
-  const ref= useRef();
-  
-  const handleAdd = () =>{
-    dispatch(actions.addTodo(todoInput));
-    dispatch(actions.setTodoInput(''));
-    ref.current.focus();
+  const handlePlay=()=> {
+    videoRef.current.play();
   }
-
+  const handlePause=()=> {
+    videoRef.current.pause();
+  }
   return (
   
-    <div style={{padding: 20}}>
-        <input 
-        ref={ref}
-        placeholder="Enter todoInput........"
-        value={todoInput}
-        onChange={e=> {
-          dispatch(actions.setTodoInput(e.target.value));
-        }}
-        
-        />
-        <button onClick={handleAdd}>Add</button>
-        
-          {todos.map((todo, index)=>
-            (<li key={index}>{todo}</li>)
-          )}
-        
-        
+    <div >
+       <Video ref={videoRef}/>
+       <button onClick={handlePlay}>play</button>
+       <button onClick={handlePause}>pause</button>
+
     </div>
     
     
