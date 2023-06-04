@@ -5,34 +5,34 @@
 //import Content from './Content'
 //import './App.css'
 
-import { useEffect, useImperativeHandle, useRef } from "react";
-import Video from "./Video";
+//import { useEffect, useImperativeHandle, useRef } from "react";
+//import Video from "./Video";
 
 // 1. Create Context
 // 2. Provider 
 // 3. Consumer (Provider and Consumer đều là React Component nên đều sử dụng được JSX vào nó)
-
-
-
+import Heading from "./components/Heading";
+import Paragraph from "./components/Paragraph";
+import GlobalStyles from "./components/GlobalStyles";
 
 function App() {
 
-  const videoRef = useRef()
-
-  const handlePlay=()=> {
-    videoRef.current.play();
-  }
-  const handlePause=()=> {
-    videoRef.current.pause();
-  }
+ 
   return (
   
-    <div >
-       <Video ref={videoRef}/>
-       <button onClick={handlePlay}>play</button>
-       <button onClick={handlePause}>pause</button>
-
+    <GlobalStyles>
+      <div style={{padding:'0 32px'}} >
+      <Heading/>
+      <Paragraph/>
     </div>
+    <div className="d-flex">
+      <div>Item1</div>
+      <div>Item2</div>
+    </div>
+
+    </GlobalStyles>
+    // Css module 
+    // Styled Component
     
     
 
