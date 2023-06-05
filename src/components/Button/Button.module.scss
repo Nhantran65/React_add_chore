@@ -2,6 +2,10 @@
     padding: 4px 16px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    &:hover{
+        cursor: pointer;
+        opacity: 0.8;
+    }
 }
 .primary{
     color:#fff;
@@ -38,4 +42,8 @@
 .link{
     background-color: transparent;
     color: #007bff;
+}
+.disabled{
+    opacity: 0.64;
+    pointer-events: none;
 }
