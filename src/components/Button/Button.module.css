@@ -1,0 +1,41 @@
+.btn{
+    padding: 4px 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.primary{
+    color:#fff;
+    background-color: #007bff;
+}
+.secondary{
+    background-color: #6c757d;
+    color: #fff;
+}
+.success{
+    background-color: #28a745;
+    color: #fff;
+}
+.danger{
+    background-color: #dc3545;
+    color: #fff;
+}
+.warning{
+    background-color: #ffc107;
+    color: #fff ;
+}
+.info{
+    background-color: #17a2b8;
+    color: black;
+}
+.light{
+    background-color: #f8f9fa;
+    color: black
+}
+.dark{
+    background-color: black;
+    color: #fff;
+}
+.link{
+    background-color: transparent;
+    color: #007bff;
+}
